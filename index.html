@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>SmarTask Services – Resume, Banner, Excel, PPT & More | Chennai</title>
   <meta name="description" content="SmarTask Services offers professional Resume Design, Banner Design, Excel Work, PowerPoint, Visiting Card & Bill Book Design. Trusted by students & businesses. Starting ₹89."/>
-  <meta name="keywords" content="Resume Design Chennai, Banner Design Chennai, Excel Work Services, Visiting Card Design, PowerPoint Presentation, Bill Book Design, SmarTask Services, Affordable Resume Design, Student Friendly Services Chennai"/>
+  <meta name="keywords" content="Resume Design Chennai, Banner Design, Excel Work Services, Visiting Card Design, Banner Design Chennai, SmarTask Services, Affordable Resume Design, Student Friendly Services Chennai"/>
   <meta property="og:title" content="SmarTask Services – Smart Work. Better Results."/>
   <meta property="og:description" content="Professional Resume, Banner, Excel, PPT & Design services starting ₹89. Fast. Clean. Affordable."/>
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -59,6 +59,8 @@
       border-bottom: 1px solid var(--border);
       transition: all .3s;
     }
+    .nav-logo-wrap { display: flex; align-items: center; gap: 0.75rem; }
+    .nav-logo-img { height: 35px; width: auto; object-fit: contain; }
     .nav-logo {
       font-family: 'Playfair Display', serif;
       font-size: 1.4rem; font-weight: 900;
@@ -106,8 +108,8 @@
     .orb1 { width:400px; height:400px; background:var(--gold); top:-100px; left:-100px; animation-delay:0s; }
     .orb2 { width:300px; height:300px; background:var(--gold-light); bottom:-50px; right:-50px; animation-delay:-4s; }
     @keyframes floatOrb {
-      0%,100% { transform: translate(0,0); }
-      50% { transform: translate(30px, -20px); }
+      0%,100% { transform: translate3d(0,0,0); }
+      50% { transform: translate3d(30px, -20px, 0); }
     }
     .hero-badge {
       display:inline-flex; align-items:center; gap:.5rem;
@@ -187,7 +189,7 @@
       font-size:2.2rem; font-weight:900; color:var(--gold); display:block;
     }
     .stat-label { font-size:.75rem; color:var(--text-muted); text-transform:uppercase; letter-spacing:1px; margin-top:.3rem; }
-    @keyframes fadeUp { from{opacity:0; transform:translateY(24px);} to{opacity:1; transform:translateY(0);} }
+    @keyframes fadeUp { from{opacity:0; transform:translate3d(0, 24px, 0);} to{opacity:1; transform:translate3d(0,0,0);} }
 
     /* ── SECTIONS COMMON ── */
     section { position:relative; z-index:1; }
@@ -347,13 +349,18 @@
       width:100%; aspect-ratio:4/3;
       background:linear-gradient(135deg, var(--black4), var(--black3));
       display:flex; align-items:center; justify-content:center;
-      font-size:3rem; color:var(--gold); opacity:.4;
+      font-size:3rem; color:var(--gold);
       position:relative; overflow:hidden;
     }
+    .portfolio-thumb img {
+      width: 100%; height: 100%; object-fit: cover;
+      position: absolute; inset: 0; transition: transform 0.3s ease;
+    }
+    .portfolio-item:hover .portfolio-thumb img { transform: scale(1.05); }
     .portfolio-thumb .overlay {
       position:absolute; inset:0; background:rgba(201,168,76,.9);
       display:flex; align-items:center; justify-content:center;
-      opacity:0; transition:opacity .3s; color:var(--black); font-size:1.5rem;
+      opacity:0; transition:opacity .3s; color:var(--black); font-size:1.5rem; z-index:2;
     }
     .portfolio-item:hover .overlay { opacity:1; }
     .portfolio-info { padding:1rem 1.2rem; }
@@ -377,7 +384,7 @@
       border-radius:14px; padding:2rem; position:relative;
     }
     .testimonial-card::before {
-      content:'"'; position:absolute; top:1rem; right:1.5rem;
+      content:''; position:absolute; top:1rem; right:1.5rem;
       font-family:'Playfair Display',serif; font-size:5rem;
       color:var(--gold); opacity:.15; line-height:1;
     }
@@ -396,7 +403,7 @@
     /* ── INSTAGRAM ── */
     #instagram { background:var(--black2); }
     .insta-grid {
-      display:grid; grid-template-columns:repeat(auto-fit,minmax(160px,1fr));
+      display:grid; grid-template-columns:repeat(auto-fit,minmax(140px,1fr));
       gap:.8rem; margin-top:2rem;
     }
     .insta-item {
@@ -405,17 +412,16 @@
       border:1px solid var(--border);
       display:flex; align-items:center; justify-content:center;
       flex-direction:column; gap:.5rem;
-      font-size:2rem; color:var(--gold); opacity:.5;
       cursor:pointer; transition:all .3s; overflow:hidden; position:relative;
     }
-    .insta-item:hover { opacity:1; border-color:var(--gold); transform:scale(1.03); }
+    .insta-item img { width: 100%; height: 100%; object-fit: cover; position: absolute; inset:0; }
+    .insta-item:hover { border-color:var(--gold); transform:scale(1.03); }
     .insta-item .insta-overlay {
       position:absolute; inset:0;
-      background:linear-gradient(135deg, rgba(201,168,76,.2), rgba(201,168,76,.05));
-      opacity:0; transition:opacity .3s;
+      background:linear-gradient(180deg, transparent 40%, rgba(8,8,8,0.85) 100%);
+      display: flex; align-items: flex-end; padding: 0.5rem; z-index: 2;
     }
-    .insta-item:hover .insta-overlay { opacity:1; }
-    .insta-label { font-size:.7rem; color:var(--text-muted); font-weight:500; }
+    .insta-label { font-size:.65rem; color:var(--text); font-weight:500; text-shadow: 0 2px 4px rgba(0,0,0,0.8); position: relative; z-index: 3; }
     .insta-cta { text-align:center; margin-top:2rem; }
     .insta-cta a {
       display:inline-flex; align-items:center; gap:.5rem;
@@ -450,12 +456,13 @@
       background:var(--black3); border:1px solid var(--border);
       border-radius:12px; padding:1.5rem; text-align:center; margin-top:1.5rem;
     }
-    .qr-placeholder {
-      width:120px; height:120px; margin:0 auto 1rem;
+    .qr-image-wrap {
+      width:140px; height:140px; margin:0 auto 1rem;
       background:var(--white); border-radius:8px;
       display:flex; align-items:center; justify-content:center;
-      font-size:3rem;
+      overflow: hidden; padding: 0.5rem;
     }
+    .qr-image-wrap img { width: 100%; height: 100%; object-fit: contain; }
     .qr-card p { font-size:.8rem; color:var(--text-muted); }
     .contact-form {
       background:var(--black3); border:1px solid var(--border);
@@ -479,7 +486,6 @@
     .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
       border-color:var(--gold); box-shadow:0 0 0 3px rgba(201,168,76,.1);
     }
-    .form-group select option { background:var(--black4); }
     .form-submit {
       width:100%; background:linear-gradient(135deg, var(--gold-light), var(--gold), var(--gold-dark));
       color:var(--black); border:none; border-radius:8px;
@@ -559,7 +565,7 @@
       animation: waBounce 3s ease-in-out infinite;
     }
     .wa-float:hover { transform:scale(1.1); box-shadow:0 10px 35px rgba(37,211,102,.7); }
-    @keyframes waBounce { 0%,100%{transform:translateY(0);} 50%{transform:translateY(-6px);} }
+    @keyframes waBounce { 0%,100%{transform:translate3d(0,0,0);} 50%{transform:translate3d(0, -6px, 0);} }
     .wa-float::before {
       content:''; position:absolute; inset:-4px; border-radius:50%;
       border:2px solid rgba(37,211,102,.4); animation:waPulse 2s ease infinite;
@@ -603,17 +609,21 @@
 
     /* ── REVEAL ANIMATION ── */
     .reveal {
-      opacity:0; transform:translateY(30px);
+      opacity:0; transform:translate3d(0, 30px, 0);
       transition:opacity .7s ease, transform .7s ease;
     }
-    .reveal.visible { opacity:1; transform:translateY(0); }
+    .reveal.visible { opacity:1; transform:translate3d(0,0,0); }
   </style>
 </head>
 <body>
 
 <!-- NAV -->
 <nav id="navbar">
-  <div class="nav-logo">Smar<span>Task</span></div>
+  <div class="nav-logo-wrap">
+    <!-- Drop Client Logo Here -->
+    <img src="/images/logo.jpeg" alt="SmarTask Logo" class="nav-logo-img" onerror="this.style.display='none'">
+    <div class="nav-logo">Smar<span>Task</span></div>
+  </div>
   <ul class="nav-links" id="navLinks">
     <li><a href="#about">About</a></li>
     <li><a href="#services">Services</a></li>
@@ -621,7 +631,7 @@
     <li><a href="#testimonials">Reviews</a></li>
     <li><a href="#contact">Contact</a></li>
   </ul>
-  <a href="https://wa.me/919999999999?text=Hi%20SmarTask!%20I%20need%20your%20services." class="nav-cta" target="_blank">
+  <a href="https://wa.me/919790460950?text=Hi%20SmarTask!%20I%20need%20your%20services." class="nav-cta" target="_blank">
     <i class="fab fa-whatsapp"></i> WhatsApp
   </a>
   <div class="hamburger" id="hamburger" onclick="toggleNav()">
@@ -641,8 +651,8 @@
   <p class="hero-desc">Professional Resume, Banner, PowerPoint, Excel & Design services — fast, clean, and affordable. Starting at just ₹89.</p>
 
   <div class="hero-btns">
-    <a href="tel:+919999999999" class="btn-gold"><i class="fas fa-phone"></i> Call Now</a>
-    <a href="https://wa.me/919999999999?text=Hi%20SmarTask!" class="btn-outline" target="_blank"><i class="fab fa-whatsapp"></i> WhatsApp</a>
+    <a href="tel:+919790460950" class="btn-gold"><i class="fas fa-phone"></i> Call Now</a>
+    <a href="https://wa.me/919790460950?text=Hi%20SmarTask!" class="btn-outline" target="_blank"><i class="fab fa-whatsapp"></i> WhatsApp</a>
     <a href="#services" class="btn-white"><i class="fas fa-th-large"></i> View Services</a>
   </div>
 
@@ -769,7 +779,7 @@
         <div class="price-feat"><i class="fas fa-check-circle"></i> Student Friendly</div>
         <div class="price-feat"><i class="fas fa-check-circle"></i> Confidential & Safe</div>
       </div>
-      <a href="https://wa.me/919999999999?text=Hi%20SmarTask!%20I%20need%20a%20service." class="btn-gold" target="_blank"><i class="fab fa-whatsapp"></i> Order Now</a>
+      <a href="https://wa.me/919790460950?text=Hi%20SmarTask!%20I%20need%20a%20service." class="btn-gold" target="_blank"><i class="fab fa-whatsapp"></i> Order Now</a>
     </div>
   </div>
 </section>
@@ -781,62 +791,86 @@
       <div class="section-tag">Our Work</div>
       <h2 class="section-title">Portfolio & <span class="gold">Sample Works</span></h2>
       <div class="divider"></div>
-      <p class="section-desc">See the quality of our work. Upload your samples here to build trust with visitors.</p>
+      <p class="section-desc">See the real samples of our high-quality designs. Filter by category to explore.</p>
     </div>
     <div class="portfolio-tabs reveal">
       <button class="tab-btn active" onclick="filterPortfolio('all',this)">All</button>
-      <button class="tab-btn" onclick="filterPortfolio('resume',this)">Resumes</button>
-      <button class="tab-btn" onclick="filterPortfolio('banner',this)">Banners</button>
-      <button class="tab-btn" onclick="filterPortfolio('ppt',this)">PPT</button>
       <button class="tab-btn" onclick="filterPortfolio('card',this)">Visiting Cards</button>
+      <button class="tab-btn" onclick="filterPortfolio('banner',this)">Banners</button>
+      <button class="tab-btn" onclick="filterPortfolio('resume',this)">Resumes</button>
+      <button class="tab-btn" onclick="filterPortfolio('ppt',this)">PPT Samples</button>
     </div>
+    
     <div class="portfolio-grid reveal" id="portfolioGrid">
-      <div class="portfolio-item" data-cat="resume">
+      <!-- VISITING CARDS -->
+      <div class="portfolio-item" data-cat="card">
         <div class="portfolio-thumb">
-          <i class="fas fa-file-alt"></i>
+          <img src="demo1.jpeg" alt="Visiting Card Sample">
           <div class="overlay"><i class="fas fa-eye"></i></div>
         </div>
-        <div class="portfolio-info"><h4>Resume Sample 01</h4><p>Fresher – Engineering</p></div>
-      </div>
-      <div class="portfolio-item" data-cat="resume">
-        <div class="portfolio-thumb">
-          <i class="fas fa-file-alt"></i>
-          <div class="overlay"><i class="fas fa-eye"></i></div>
-        </div>
-        <div class="portfolio-info"><h4>Resume Sample 02</h4><p>Experienced – IT</p></div>
-      </div>
-      <div class="portfolio-item" data-cat="banner">
-        <div class="portfolio-thumb">
-          <i class="fas fa-image"></i>
-          <div class="overlay"><i class="fas fa-eye"></i></div>
-        </div>
-        <div class="portfolio-info"><h4>Event Banner</h4><p>College Fest Design</p></div>
-      </div>
-      <div class="portfolio-item" data-cat="banner">
-        <div class="portfolio-thumb">
-          <i class="fas fa-image"></i>
-          <div class="overlay"><i class="fas fa-eye"></i></div>
-        </div>
-        <div class="portfolio-info"><h4>Business Banner</h4><p>Social Media – Instagram</p></div>
-      </div>
-      <div class="portfolio-item" data-cat="ppt">
-        <div class="portfolio-thumb">
-          <i class="fas fa-desktop"></i>
-          <div class="overlay"><i class="fas fa-eye"></i></div>
-        </div>
-        <div class="portfolio-info"><h4>Project Presentation</h4><p>College Final Year</p></div>
+        <div class="portfolio-info"><h4>Premium Visiting Card</h4><p>Modern Business Design</p></div>
       </div>
       <div class="portfolio-item" data-cat="card">
         <div class="portfolio-thumb">
-          <i class="fas fa-id-card"></i>
+          <img src="/images/portfolio/card2.jpg" alt="Visiting Card Sample">
           <div class="overlay"><i class="fas fa-eye"></i></div>
         </div>
-        <div class="portfolio-info"><h4>Visiting Card Design</h4><p>Shop Owner – Modern</p></div>
+        <div class="portfolio-info"><h4>Minimalist Card</h4><p>Corporate Style</p></div>
+      </div>
+
+      <!-- BANNERS -->
+      <div class="portfolio-item" data-cat="banner">
+        <div class="portfolio-thumb">
+          <img src="/images/portfolio/banner1.jpg" alt="Banner Sample">
+          <div class="overlay"><i class="fas fa-eye"></i></div>
+        </div>
+        <div class="portfolio-info"><h4>Commercial Flex Banner</h4><p>Store Launch Promo</p></div>
+      </div>
+      <div class="portfolio-item" data-cat="banner">
+        <div class="portfolio-thumb">
+          <img src="/images/portfolio/banner2.jpg" alt="Banner Sample">
+          <div class="overlay"><i class="fas fa-eye"></i></div>
+        </div>
+        <div class="portfolio-info"><h4>Social Media Banner</h4><p>Instagram Brand Setup</p></div>
+      </div>
+
+      <!-- RESUMES -->
+      <div class="portfolio-item" data-cat="resume">
+        <div class="portfolio-thumb">
+          <img src="/images/portfolio/resume1.jpg" alt="Resume Sample">
+          <div class="overlay"><i class="fas fa-eye"></i></div>
+        </div>
+        <div class="portfolio-info"><h4>ATS-Optimized Resume</h4><p>Fresher Engineering Template</p></div>
+      </div>
+      <div class="portfolio-item" data-cat="resume">
+        <div class="portfolio-thumb">
+          <img src="/images/portfolio/resume2.jpg" alt="Resume Sample">
+          <div class="overlay"><i class="fas fa-eye"></i></div>
+        </div>
+        <div class="portfolio-info"><h4>Executive CV Design</h4><p>Experienced IT Profile</p></div>
+      </div>
+
+      <!-- PPT SAMPLES -->
+      <div class="portfolio-item" data-cat="ppt">
+        <div class="portfolio-thumb">
+          <img src="/images/portfolio/ppt1.jpg" alt="PPT Sample">
+          <div class="overlay"><i class="fas fa-eye"></i></div>
+        </div>
+        <div class="portfolio-info"><h4>Academic Seminar PPT</h4><p>Clean Engineering Slides</p></div>
+      </div>
+      <div class="portfolio-item" data-cat="ppt">
+        <div class="portfolio-thumb">
+          <img src="/images/portfolio/ppt2.jpg" alt="PPT Sample">
+          <div class="overlay"><i class="fas fa-eye"></i></div>
+        </div>
+        <div class="portfolio-info"><h4>Corporate Pitch Deck</h4><p>Business Plan Template</p></div>
       </div>
     </div>
+
+    <!-- COMPLETE PDF DOWNLOAD LINK -->
     <div class="portfolio-cta reveal">
-      <p>Want to see more samples? Download our complete portfolio PDF.</p>
-      <a href="#" class="btn-gold" download><i class="fas fa-download"></i> Download Portfolio PDF</a>
+      <p>Want to look through our full showcase offline? Download our comprehensive samples deck.</p>
+      <a href="/assets/smartask-portfolio.pdf" class="btn-gold" download><i class="fas fa-download"></i> Download Portfolio PDF</a>
     </div>
   </div>
 </section>
@@ -886,32 +920,68 @@
   </div>
 </section>
 
-<!-- INSTAGRAM -->
+<!-- INSTAGRAM GALLERY (Populated with your client's files) -->
 <section id="instagram">
   <div class="section-inner">
     <div class="reveal" style="text-align:center;">
       <div class="section-tag" style="justify-content:center;">Follow Us</div>
       <h2 class="section-title">Our <span class="gold">Instagram Gallery</span></h2>
       <div class="divider" style="margin:1rem auto 1.5rem;"></div>
-      <p class="section-desc" style="margin:0 auto;">Follow us on Instagram for the latest work samples, offers, and updates.</p>
+      <p class="section-desc" style="margin:0 auto;">Browse through our work samples directly from our feed.</p>
     </div>
-    <div class="insta-grid reveal">
-      <div class="insta-item"><div class="insta-overlay"></div><i class="fas fa-file-alt"></i><span class="insta-label">Resume</span></div>
-      <div class="insta-item"><div class="insta-overlay"></div><i class="fas fa-image"></i><span class="insta-label">Banner</span></div>
-      <div class="insta-item"><div class="insta-overlay"></div><i class="fas fa-desktop"></i><span class="insta-label">PPT</span></div>
-      <div class="insta-item"><div class="insta-overlay"></div><i class="fas fa-id-card"></i><span class="insta-label">Card</span></div>
-      <div class="insta-item"><div class="insta-overlay"></div><i class="fas fa-table"></i><span class="insta-label">Excel</span></div>
-      <div class="insta-item"><div class="insta-overlay"></div><i class="fas fa-book"></i><span class="insta-label">Bill Book</span></div>
+    
+<div class="insta-grid reveal">
+      <div class="insta-item"><div class="insta-overlay"></div><img src="/images/1.jpeg" alt="SmarTask Work"><span class="insta-label">Design Sample</span></div>
+      <div class="insta-item"><div class="insta-overlay"></div><img src="/images/2.jpeg" alt="SmarTask Work"><span class="insta-label">Design Sample</span></div>
+      <div class="insta-item"><div class="insta-overlay"></div><img src="/images/3.jpeg" alt="SmarTask Work"><span class="insta-label">Design Sample</span></div>
+      <div class="insta-item"><div class="insta-overlay"></div><img src="/images/4.jpeg" alt="SmarTask Work"><span class="insta-label">Design Sample</span></div>
+      <div class="insta-item"><div class="insta-overlay"></div><img src="/images/5.jpeg" alt="SmarTask Work"><span class="insta-label">Design Sample</span></div>
+      <div class="insta-item"><div class="insta-overlay"></div><img src="/images/6.jpeg" alt="SmarTask Work"><span class="insta-label">Design Sample</span></div>
+      <div class="insta-item"><div class="insta-overlay"></div><img src="/images/7.jpeg" alt="SmarTask Work"><span class="insta-label">Design Sample</span></div>
+      <div class="insta-item"><div class="insta-overlay"></div><img src="/images/8.jpeg" alt="SmarTask Work"><span class="insta-label">Design Sample</span></div>
+      <div class="insta-item"><div class="insta-overlay"></div><img src="/images/9.jpeg" alt="SmarTask Work"><span class="insta-label">Design Sample</span></div>
+      <div class="insta-item"><div class="insta-overlay"></div><img src="/images/10.jpeg" alt="SmarTask Work"><span class="insta-label">Design Sample</span></div>
+      <div class="insta-item"><div class="insta-overlay"></div><img src="/images/11.jpeg" alt="SmarTask Work"><span class="insta-label">Design Sample</span></div>
+      <div class="insta-item"><div class="insta-overlay"></div><img src="/images/12.jpeg" alt="SmarTask Work"><span class="insta-label">Design Sample</span></div>
+      <div class="insta-item"><div class="insta-overlay"></div><img src="/images/13.jpeg" alt="SmarTask Work"><span class="insta-label">Design Sample</span></div>
+      <div class="insta-item"><div class="insta-overlay"></div><img src="/images/14.jpeg" alt="SmarTask Work"><span class="insta-label">Design Sample</span></div>
+      <div class="insta-item"><div class="insta-overlay"></div><img src="/images/15.jpeg" alt="SmarTask Work"><span class="insta-label">Design Sample</span></div>
+      <div class="insta-item"><div class="insta-overlay"></div><img src="/images/16.jpeg" alt="SmarTask Work"><span class="insta-label">Design Sample</span></div>
+      <div class="insta-item"><div class="insta-overlay"></div><img src="/images/17.jpeg" alt="SmarTask Work"><span class="insta-label">Design Sample</span></div>
+      <div class="insta-item"><div class="insta-overlay"></div><img src="/images/18.jpeg" alt="SmarTask Work"><span class="insta-label">Design Sample</span></div>
+      <div class="insta-item"><div class="insta-overlay"></div><img src="/images/19.jpeg" alt="SmarTask Work"><span class="insta-label">Design Sample</span></div>
+      <div class="insta-item"><div class="insta-overlay"></div><img src="/images/20.jpeg" alt="SmarTask Work"><span class="insta-label">Design Sample</span></div>
+      <div class="insta-item"><div class="insta-overlay"></div><img src="/images/21.jpeg" alt="SmarTask Work"><span class="insta-label">Design Sample</span></div>
+      <div class="insta-item"><div class="insta-overlay"></div><img src="/images/22.jpeg" alt="SmarTask Work"><span class="insta-label">Design Sample</span></div>
+      <div class="insta-item"><div class="insta-overlay"></div><img src="/images/23.jpeg" alt="SmarTask Work"><span class="insta-label">Design Sample</span></div>
+      <div class="insta-item"><div class="insta-overlay"></div><img src="/images/24.jpeg" alt="SmarTask Work"><span class="insta-label">Design Sample</span></div>
+      <div class="insta-item"><div class="insta-overlay"></div><img src="/images/25.jpeg" alt="SmarTask Work"><span class="insta-label">Design Sample</span></div>
+      <div class="insta-item"><div class="insta-overlay"></div><img src="/images/26.jpeg" alt="SmarTask Work"><span class="insta-label">Design Sample</span></div>
+      <div class="insta-item"><div class="insta-overlay"></div><img src="/images/27.jpeg" alt="SmarTask Work"><span class="insta-label">Design Sample</span></div>
+      <div class="insta-item"><div class="insta-overlay"></div><img src="/images/28.jpeg" alt="SmarTask Work"><span class="insta-label">Design Sample</span></div>
+      <div class="insta-item"><div class="insta-overlay"></div><img src="/images/29.jpeg" alt="SmarTask Work"><span class="insta-label">Design Sample</span></div>
+      <div class="insta-item"><div class="insta-overlay"></div><img src="/images/30.jpeg" alt="SmarTask Work"><span class="insta-label">Design Sample</span></div>
+      <div class="insta-item"><div class="insta-overlay"></div><img src="/images/31.jpeg" alt="SmarTask Work"><span class="insta-label">Design Sample</span></div>
+      <div class="insta-item"><div class="insta-overlay"></div><img src="/images/32.jpeg" alt="SmarTask Work"><span class="insta-label">Design Sample</span></div>
+      <div class="insta-item"><div class="insta-overlay"></div><img src="/images/33.jpeg" alt="SmarTask Work"><span class="insta-label">Design Sample</span></div>
+      <div class="insta-item"><div class="insta-overlay"></div><img src="/images/34.jpeg" alt="SmarTask Work"><span class="insta-label">Design Sample</span></div>
+      <div class="insta-item"><div class="insta-overlay"></div><img src="/images/35.jpeg" alt="SmarTask Work"><span class="insta-label">Design Sample</span></div>
+      <div class="insta-item"><div class="insta-overlay"></div><img src="/images/36.jpeg" alt="SmarTask Work"><span class="insta-label">Design Sample</span></div>
+      <div class="insta-item"><div class="insta-overlay"></div><img src="/images/37.jpeg" alt="SmarTask Work"><span class="insta-label">Design Sample</span></div>
+      <div class="insta-item"><div class="insta-overlay"></div><img src="/images/38.jpeg" alt="SmarTask Work"><span class="insta-label">Design Sample</span></div>
+      <div class="insta-item"><div class="insta-overlay"></div><img src="/images/39.jpeg" alt="SmarTask Work"><span class="insta-label">Design Sample</span></div>
+      <div class="insta-item"><div class="insta-overlay"></div><img src="/images/40.jpeg" alt="SmarTask Work"><span class="insta-label">Design Sample</span></div>
     </div>
+    
     <div class="insta-cta reveal">
       <a href="https://instagram.com/smartask.services" target="_blank">
-        <i class="fab fa-instagram"></i> @smartask.services — Follow for More
+        <i class="fab fa-instagram"></i> @smartask.services — Follow for Live Updates
       </a>
     </div>
   </div>
 </section>
 
-<!-- BOOKING -->
+<!-- ONLINE BOOKING CARD -->
 <section id="booking">
   <div class="section-inner">
     <div class="booking-box reveal">
@@ -919,15 +989,15 @@
       <h3>Book Your Order Online</h3>
       <p>Ready to get started? Send us a WhatsApp message or fill the contact form below. We'll confirm your order within minutes and get started right away.</p>
       <div class="booking-options">
-        <a href="https://wa.me/919999999999?text=Hi!%20I%20want%20to%20book%20a%20service%20from%20SmarTask." class="btn-gold" target="_blank"><i class="fab fa-whatsapp"></i> Book via WhatsApp</a>
+        <a href="https://wa.me/919790460950?text=Hi!%20I%20want%20to%20book%20a%20service%20from%20SmarTask." class="btn-gold" target="_blank"><i class="fab fa-whatsapp"></i> Book via WhatsApp</a>
         <a href="#contact" class="btn-outline"><i class="fas fa-envelope"></i> Fill Contact Form</a>
-        <a href="tel:+919999999999" class="btn-white"><i class="fas fa-phone"></i> Call to Book</a>
+        <a href="tel:+919790460950" class="btn-white"><i class="fas fa-phone"></i> Call to Book</a>
       </div>
     </div>
   </div>
 </section>
 
-<!-- CONTACT -->
+<!-- CONTACT SECTION -->
 <section id="contact">
   <div class="section-inner">
     <div class="reveal">
@@ -940,31 +1010,33 @@
         <div class="contact-info">
           <div class="contact-item">
             <div class="contact-item-icon"><i class="fas fa-phone"></i></div>
-            <div><div class="contact-item-label">Phone</div><div class="contact-item-value"><a href="tel:+919999999999">+91 99999 99999</a></div></div>
+            <div><div class="contact-item-label">Phone</div><div class="contact-item-value"><a href="tel:+919790460950">+91 97904 60950</a></div></div>
           </div>
           <div class="contact-item">
             <div class="contact-item-icon"><i class="fab fa-whatsapp"></i></div>
-            <div><div class="contact-item-label">WhatsApp</div><div class="contact-item-value"><a href="https://wa.me/919999999999" target="_blank">+91 99999 99999</a></div></div>
+            <div><div class="contact-item-label">WhatsApp</div><div class="contact-item-value"><a href="https://wa.me/919790460950" target="_blank">+91 97904 60950</a></div></div>
           </div>
           <div class="contact-item">
             <div class="contact-item-icon"><i class="fas fa-envelope"></i></div>
-            <div><div class="contact-item-label">Email</div><div class="contact-item-value"><a href="mailto:smartask@email.com">smartask@email.com</a></div></div>
+            <div><div class="contact-item-label">Email</div><div class="contact-item-value"><a href="mailto:smartask.service@gmail.com">smartask.service@gmail.com</a></div></div>
           </div>
           <div class="contact-item">
             <div class="contact-item-icon"><i class="fas fa-map-marker-alt"></i></div>
             <div><div class="contact-item-label">Location</div><div class="contact-item-value">Chennai, Tamil Nadu, India</div></div>
           </div>
-          <div class="contact-item">
-            <div class="contact-item-icon"><i class="fab fa-instagram"></i></div>
-            <div><div class="contact-item-label">Instagram</div><div class="contact-item-value"><a href="https://instagram.com/smartask.services" target="_blank">@smartask.services</a></div></div>
-          </div>
         </div>
+        
+        <!-- INTEGRATED CLIENT QR CARD -->
         <div class="qr-card">
-          <div class="qr-placeholder">📱</div>
+          <div class="qr-image-wrap">
+            <img src="/images/whatsapp.jpeg" alt="WhatsApp QR Code">
+          </div>
           <p style="font-weight:600; color:var(--white); margin-bottom:.3rem;">Scan to WhatsApp</p>
-          <p>Replace this with your WhatsApp QR code image</p>
+          <p>Scan this code to start an instant live chat with our team.</p>
         </div>
       </div>
+
+      <!-- CONTACT FORM -->
       <div class="contact-form">
         <div class="form-title">Send a Message</div>
         <div class="form-row">
@@ -1015,8 +1087,8 @@
       <p class="footer-desc">Smart Work. Better Results. Professional services for students and businesses, starting at just ₹89. Fast, clean, and confidential.</p>
       <div class="footer-social">
         <a class="social-btn" href="https://instagram.com/smartask.services" target="_blank"><i class="fab fa-instagram"></i></a>
-        <a class="social-btn" href="https://wa.me/919999999999" target="_blank"><i class="fab fa-whatsapp"></i></a>
-        <a class="social-btn" href="mailto:smartask@email.com"><i class="fas fa-envelope"></i></a>
+        <a class="social-btn" href="https://wa.me/919790460950" target="_blank"><i class="fab fa-whatsapp"></i></a>
+        <a class="social-btn" href="mailto:smartask.service@gmail.com"><i class="fas fa-envelope"></i></a>
       </div>
     </div>
     <div class="footer-col">
@@ -1043,21 +1115,21 @@
     <div class="footer-col">
       <h4>Contact</h4>
       <ul>
-        <li><a href="tel:+919999999999">+91 99999 99999</a></li>
-        <li><a href="mailto:smartask@email.com">smartask@email.com</a></li>
+        <li><a href="tel:+919790460950">+91 97904 60950</a></li>
+        <li><a href="mailto:smartask.service@gmail.com">smartask.service@gmail.com</a></li>
         <li><a href="#">Chennai, Tamil Nadu</a></li>
         <li><a href="https://instagram.com/smartask.services" target="_blank">@smartask.services</a></li>
       </ul>
     </div>
   </div>
   <div class="footer-bottom">
-    <p>© 2024 <span>SmarTask Services</span>. All rights reserved. | Resume Design Chennai | Banner Design | Excel Work Services</p>
+    <p>© 2026 <span>SmarTask Services</span>. All rights reserved. | Resume Design Chennai | Banner Design | Excel Work Services | Visiting Card Design</p>
     <div class="student-disc">🎓 30% OFF for Students</div>
   </div>
 </footer>
 
 <!-- WHATSAPP FLOAT -->
-<a class="wa-float" href="https://wa.me/919999999999?text=Hi%20SmarTask!%20I%20need%20your%20services." target="_blank">
+<a class="wa-float" href="https://wa.me/919790460950?text=Hi%20SmarTask!%20I%20need%20your%20services." target="_blank">
   <i class="fab fa-whatsapp"></i>
 </a>
 
@@ -1075,7 +1147,7 @@
     const st = document.getElementById('scrollTop');
     if(window.scrollY > 400) st.classList.add('visible');
     else st.classList.remove('visible');
-  });
+  }, { passive: true });
 
   // ── REVEAL ON SCROLL ──
   const revealEls = document.querySelectorAll('.reveal');
@@ -1109,9 +1181,8 @@
       return;
     }
 
-    // Build WhatsApp message
     const waMsg = `Hi SmarTask! 👋\n\nName: ${name}\nPhone: ${phone}\nService: ${service}\nMessage: ${msg || 'No additional message.'}`;
-    const waUrl = `https://wa.me/919999999999?text=${encodeURIComponent(waMsg)}`;
+    const waUrl = `https://wa.me/919790460950?text=${encodeURIComponent(waMsg)}`;
     window.open(waUrl, '_blank');
 
     document.getElementById('form-success').style.display = 'block';
@@ -1128,7 +1199,8 @@
         const num = parseFloat(text.replace(/[^0-9.]/g, ''));
         const prefix = text.match(/[₹]/)?.[0] || '';
         const suffix = text.match(/[+%h]/)?.[0] || '';
-        if(!isNaN(num)) {
+        
+        if(!isNaN(num) && text.trim() !== "₹89") {
           let current = 0;
           const step = num / 60;
           const timer = setInterval(() => {
