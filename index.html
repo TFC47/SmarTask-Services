@@ -60,7 +60,12 @@
       transition: all .3s;
     }
     .nav-logo-wrap { display: flex; align-items: center; gap: 0.75rem; }
-    .nav-logo-img { height: 35px; width: auto; object-fit: contain; }
+    .nav-logo-img { 
+      width: 40px; height: 40px; 
+      object-fit: cover; 
+      border-radius: 50%; 
+      border: 1px solid var(--border);
+    }
     .nav-logo {
       font-family: 'Playfair Display', serif;
       font-size: 1.4rem; font-weight: 900;
@@ -455,13 +460,16 @@
     .qr-card {
       background:var(--black3); border:1px solid var(--border);
       border-radius:12px; padding:1.5rem; text-align:center; margin-top:1.5rem;
+      cursor: pointer;
     }
     .qr-image-wrap {
       width:140px; height:140px; margin:0 auto 1rem;
       background:var(--white); border-radius:8px;
       display:flex; align-items:center; justify-content:center;
       overflow: hidden; padding: 0.5rem;
+      transition: transform 0.3s;
     }
+    .qr-card:hover .qr-image-wrap { transform: scale(1.03); }
     .qr-image-wrap img { width: 100%; height: 100%; object-fit: contain; }
     .qr-card p { font-size:.8rem; color:var(--text-muted); }
     .contact-form {
@@ -586,8 +594,38 @@
     .scroll-top.visible { opacity:1; pointer-events:all; }
     .scroll-top:hover { background:var(--gold); color:var(--black); }
 
+    /* ── LIGHTBOX LAYOUT OVERLAY ── */
+    .lightbox-modal {
+      position: fixed; inset: 0; background: rgba(8, 8, 8, 0.95);
+      backdrop-filter: blur(15px); z-index: 2000; display: none;
+      align-items: center; justify-content: center; opacity: 0;
+      transition: opacity 0.4s ease; padding: 2rem;
+    }
+    .lightbox-modal.active { display: flex; opacity: 1; }
+    .lightbox-content-wrap {
+      position: relative; max-width: 90vw; max-height: 85vh;
+      display: flex; flex-direction: column; align-items: center;
+    }
+    .lightbox-img {
+      max-width: 100%; max-height: 80vh; object-fit: contain;
+      border-radius: 8px; border: 1px solid var(--border);
+      box-shadow: 0 20px 50px rgba(0,0,0,0.8);
+      transform: scale(0.95); transition: transform 0.4s ease;
+    }
+    .lightbox-modal.active .lightbox-img { transform: scale(1); }
+    .lightbox-close {
+      position: absolute; top: -2.5rem; right: 0;
+      background: none; border: none; color: var(--text-muted);
+      font-size: 1.5rem; cursor: pointer; transition: color 0.2s;
+    }
+    .lightbox-close:hover { color: var(--gold); }
+    .lightbox-caption {
+      margin-top: 1rem; font-size: 0.9rem; color: var(--text);
+      letter-spacing: 0.5px; font-weight: 500; text-align: center;
+    }
+
     /* ── MOBILE ── */
-    @media(max-width:768px){
+    @media(max-width:768px) {
       .nav-links { display:none; }
       .hamburger { display:flex; }
       .nav-links.open {
@@ -602,7 +640,7 @@
       .float-badge { position:relative; bottom:auto; right:auto; margin-top:1rem; }
       .price-banner { flex-direction:column; }
     }
-    @media(max-width:480px){
+    @media(max-width:480px) {
       .footer-grid { grid-template-columns:1fr; }
       .hero-stats { gap:1.5rem; }
     }
@@ -617,11 +655,9 @@
 </head>
 <body>
 
-<!-- NAV -->
 <nav id="navbar">
   <div class="nav-logo-wrap">
-    <!-- Drop Client Logo Here -->
-    <img src="/images/logo.png" alt="SmarTask Logo" class="nav-logo-img" onerror="this.style.display='none'">
+    <img src="/images/logo.jpeg" alt="SmarTask Logo" class="nav-logo-img" onerror="this.style.display='none'">
     <div class="nav-logo">Smar<span>Task</span></div>
   </div>
   <ul class="nav-links" id="navLinks">
@@ -639,7 +675,6 @@
   </div>
 </nav>
 
-<!-- HERO -->
 <section id="hero">
   <div class="hero-bg"></div>
   <div class="hero-orb orb1"></div>
@@ -664,7 +699,6 @@
   </div>
 </section>
 
-<!-- ABOUT -->
 <section id="about">
   <div class="section-inner">
     <div class="about-grid reveal">
@@ -721,7 +755,6 @@
   </div>
 </section>
 
-<!-- SERVICES -->
 <section id="services">
   <div class="section-inner">
     <div class="reveal">
@@ -784,7 +817,6 @@
   </div>
 </section>
 
-<!-- PORTFOLIO -->
 <section id="portfolio">
   <div class="section-inner">
     <div class="reveal">
@@ -800,74 +832,69 @@
       <button class="tab-btn" onclick="filterPortfolio('resume',this)">Resumes</button>
       <button class="tab-btn" onclick="filterPortfolio('ppt',this)">PPT Samples</button>
     </div>
-    
+     
     <div class="portfolio-grid reveal" id="portfolioGrid">
-      <!-- VISITING CARDS -->
-      <div class="portfolio-item" data-cat="card">
+      <div class="portfolio-item" data-cat="card" onclick="openLightbox(this)">
         <div class="portfolio-thumb">
-          <img src="/images/portfolio/card1.jpg" alt="Visiting Card Sample">
-          <div class="overlay"><i class="fas fa-eye"></i></div>
+          <img src="/images/demo1.jpeg" alt="Premium Visiting Card">
+          <div class="overlay"><i class="fas fa-expand"></i></div>
         </div>
         <div class="portfolio-info"><h4>Premium Visiting Card</h4><p>Modern Business Design</p></div>
       </div>
-      <div class="portfolio-item" data-cat="card">
+      <div class="portfolio-item" data-cat="card" onclick="openLightbox(this)">
         <div class="portfolio-thumb">
-          <img src="/images/portfolio/card2.jpg" alt="Visiting Card Sample">
-          <div class="overlay"><i class="fas fa-eye"></i></div>
+          <img src="/images/portfolio/card2.jpg" alt="Minimalist Card">
+          <div class="overlay"><i class="fas fa-expand"></i></div>
         </div>
         <div class="portfolio-info"><h4>Minimalist Card</h4><p>Corporate Style</p></div>
       </div>
 
-      <!-- BANNERS -->
-      <div class="portfolio-item" data-cat="banner">
+      <div class="portfolio-item" data-cat="banner" onclick="openLightbox(this)">
         <div class="portfolio-thumb">
-          <img src="/images/portfolio/banner1.jpg" alt="Banner Sample">
-          <div class="overlay"><i class="fas fa-eye"></i></div>
+          <img src="/images/portfolio/banner1.jpg" alt="Commercial Flex Banner">
+          <div class="overlay"><i class="fas fa-expand"></i></div>
         </div>
         <div class="portfolio-info"><h4>Commercial Flex Banner</h4><p>Store Launch Promo</p></div>
       </div>
-      <div class="portfolio-item" data-cat="banner">
+      <div class="portfolio-item" data-cat="banner" onclick="openLightbox(this)">
         <div class="portfolio-thumb">
-          <img src="/images/portfolio/banner2.jpg" alt="Banner Sample">
-          <div class="overlay"><i class="fas fa-eye"></i></div>
+          <img src="/images/portfolio/banner2.jpg" alt="Social Media Banner">
+          <div class="overlay"><i class="fas fa-expand"></i></div>
         </div>
         <div class="portfolio-info"><h4>Social Media Banner</h4><p>Instagram Brand Setup</p></div>
       </div>
 
-      <!-- RESUMES -->
-      <div class="portfolio-item" data-cat="resume">
+      <div class="portfolio-item" data-cat="resume" onclick="openLightbox(this)">
         <div class="portfolio-thumb">
-          <img src="/images/portfolio/resume1.jpg" alt="Resume Sample">
-          <div class="overlay"><i class="fas fa-eye"></i></div>
+          <img src="/images/portfolio/resume1.jpg" alt="ATS-Optimized Resume">
+          <div class="overlay"><i class="fas fa-expand"></i></div>
         </div>
         <div class="portfolio-info"><h4>ATS-Optimized Resume</h4><p>Fresher Engineering Template</p></div>
       </div>
-      <div class="portfolio-item" data-cat="resume">
+      <div class="portfolio-item" data-cat="resume" onclick="openLightbox(this)">
         <div class="portfolio-thumb">
-          <img src="/images/portfolio/resume2.jpg" alt="Resume Sample">
-          <div class="overlay"><i class="fas fa-eye"></i></div>
+          <img src="/images/portfolio/resume2.jpg" alt="Executive CV Design">
+          <div class="overlay"><i class="fas fa-expand"></i></div>
         </div>
         <div class="portfolio-info"><h4>Executive CV Design</h4><p>Experienced IT Profile</p></div>
       </div>
 
-      <!-- PPT SAMPLES -->
-      <div class="portfolio-item" data-cat="ppt">
+      <div class="portfolio-item" data-cat="ppt" onclick="openLightbox(this)">
         <div class="portfolio-thumb">
-          <img src="/images/portfolio/ppt1.jpg" alt="PPT Sample">
-          <div class="overlay"><i class="fas fa-eye"></i></div>
+          <img src="/images/portfolio/ppt1.jpg" alt="Academic Seminar PPT">
+          <div class="overlay"><i class="fas fa-expand"></i></div>
         </div>
         <div class="portfolio-info"><h4>Academic Seminar PPT</h4><p>Clean Engineering Slides</p></div>
       </div>
-      <div class="portfolio-item" data-cat="ppt">
+      <div class="portfolio-item" data-cat="ppt" onclick="openLightbox(this)">
         <div class="portfolio-thumb">
-          <img src="/images/portfolio/ppt2.jpg" alt="PPT Sample">
-          <div class="overlay"><i class="fas fa-eye"></i></div>
+          <img src="/images/portfolio/ppt2.jpg" alt="Corporate Pitch Deck">
+          <div class="overlay"><i class="fas fa-expand"></i></div>
         </div>
         <div class="portfolio-info"><h4>Corporate Pitch Deck</h4><p>Business Plan Template</p></div>
       </div>
     </div>
 
-    <!-- COMPLETE PDF DOWNLOAD LINK -->
     <div class="portfolio-cta reveal">
       <p>Want to look through our full showcase offline? Download our comprehensive samples deck.</p>
       <a href="/assets/smartask-portfolio.pdf" class="btn-gold" download><i class="fas fa-download"></i> Download Portfolio PDF</a>
@@ -875,7 +902,6 @@
   </div>
 </section>
 
-<!-- TESTIMONIALS -->
 <section id="testimonials">
   <div class="section-inner">
     <div class="reveal">
@@ -920,7 +946,6 @@
   </div>
 </section>
 
-<!-- INSTAGRAM GALLERY (Populated with your client's files) -->
 <section id="instagram">
   <div class="section-inner">
     <div class="reveal" style="text-align:center;">
@@ -930,49 +955,47 @@
       <p class="section-desc" style="margin:0 auto;">Browse through our work samples directly from our feed.</p>
     </div>
     
-    <!-- 40 Image Grid Setup for Client Images -->
     <div class="insta-grid reveal">
-      <!-- Loop structure setup for easy file matching -->
-      <div class="insta-item"><div class="insta-overlay"></div><img src="/images/instagram/img1.jpg" alt="SmarTask Work"><span class="insta-label">Design Sample</span></div>
-      <div class="insta-item"><div class="insta-overlay"></div><img src="/images/instagram/img2.jpg" alt="SmarTask Work"><span class="insta-label">Design Sample</span></div>
-      <div class="insta-item"><div class="insta-overlay"></div><img src="/images/instagram/img3.jpg" alt="SmarTask Work"><span class="insta-label">Design Sample</span></div>
-      <div class="insta-item"><div class="insta-overlay"></div><img src="/images/instagram/img4.jpg" alt="SmarTask Work"><span class="insta-label">Design Sample</span></div>
-      <div class="insta-item"><div class="insta-overlay"></div><img src="/images/instagram/img5.jpg" alt="SmarTask Work"><span class="insta-label">Design Sample</span></div>
-      <div class="insta-item"><div class="insta-overlay"></div><img src="/images/instagram/img6.jpg" alt="SmarTask Work"><span class="insta-label">Design Sample</span></div>
-      <div class="insta-item"><div class="insta-overlay"></div><img src="/images/instagram/img7.jpg" alt="SmarTask Work"><span class="insta-label">Design Sample</span></div>
-      <div class="insta-item"><div class="insta-overlay"></div><img src="/images/instagram/img8.jpg" alt="SmarTask Work"><span class="insta-label">Design Sample</span></div>
-      <div class="insta-item"><div class="insta-overlay"></div><img src="/images/instagram/img9.jpg" alt="SmarTask Work"><span class="insta-label">Design Sample</span></div>
-      <div class="insta-item"><div class="insta-overlay"></div><img src="/images/instagram/img10.jpg" alt="SmarTask Work"><span class="insta-label">Design Sample</span></div>
-      <div class="insta-item"><div class="insta-overlay"></div><img src="/images/instagram/img11.jpg" alt="SmarTask Work"><span class="insta-label">Design Sample</span></div>
-      <div class="insta-item"><div class="insta-overlay"></div><img src="/images/instagram/img12.jpg" alt="SmarTask Work"><span class="insta-label">Design Sample</span></div>
-      <div class="insta-item"><div class="insta-overlay"></div><img src="/images/instagram/img13.jpg" alt="SmarTask Work"><span class="insta-label">Design Sample</span></div>
-      <div class="insta-item"><div class="insta-overlay"></div><img src="/images/instagram/img14.jpg" alt="SmarTask Work"><span class="insta-label">Design Sample</span></div>
-      <div class="insta-item"><div class="insta-overlay"></div><img src="/images/instagram/img15.jpg" alt="SmarTask Work"><span class="insta-label">Design Sample</span></div>
-      <div class="insta-item"><div class="insta-overlay"></div><img src="/images/instagram/img16.jpg" alt="SmarTask Work"><span class="insta-label">Design Sample</span></div>
-      <div class="insta-item"><div class="insta-overlay"></div><img src="/images/instagram/img17.jpg" alt="SmarTask Work"><span class="insta-label">Design Sample</span></div>
-      <div class="insta-item"><div class="insta-overlay"></div><img src="/images/instagram/img18.jpg" alt="SmarTask Work"><span class="insta-label">Design Sample</span></div>
-      <div class="insta-item"><div class="insta-overlay"></div><img src="/images/instagram/img19.jpg" alt="SmarTask Work"><span class="insta-label">Design Sample</span></div>
-      <div class="insta-item"><div class="insta-overlay"></div><img src="/images/instagram/img20.jpg" alt="SmarTask Work"><span class="insta-label">Design Sample</span></div>
-      <div class="insta-item"><div class="insta-overlay"></div><img src="/images/instagram/img21.jpg" alt="SmarTask Work"><span class="insta-label">Design Sample</span></div>
-      <div class="insta-item"><div class="insta-overlay"></div><img src="/images/instagram/img22.jpg" alt="SmarTask Work"><span class="insta-label">Design Sample</span></div>
-      <div class="insta-item"><div class="insta-overlay"></div><img src="/images/instagram/img23.jpg" alt="SmarTask Work"><span class="insta-label">Design Sample</span></div>
-      <div class="insta-item"><div class="insta-overlay"></div><img src="/images/instagram/img24.jpg" alt="SmarTask Work"><span class="insta-label">Design Sample</span></div>
-      <div class="insta-item"><div class="insta-overlay"></div><img src="/images/instagram/img25.jpg" alt="SmarTask Work"><span class="insta-label">Design Sample</span></div>
-      <div class="insta-item"><div class="insta-overlay"></div><img src="/images/instagram/img26.jpg" alt="SmarTask Work"><span class="insta-label">Design Sample</span></div>
-      <div class="insta-item"><div class="insta-overlay"></div><img src="/images/instagram/img27.jpg" alt="SmarTask Work"><span class="insta-label">Design Sample</span></div>
-      <div class="insta-item"><div class="insta-overlay"></div><img src="/images/instagram/img28.jpg" alt="SmarTask Work"><span class="insta-label">Design Sample</span></div>
-      <div class="insta-item"><div class="insta-overlay"></div><img src="/images/instagram/img29.jpg" alt="SmarTask Work"><span class="insta-label">Design Sample</span></div>
-      <div class="insta-item"><div class="insta-overlay"></div><img src="/images/instagram/img30.jpg" alt="SmarTask Work"><span class="insta-label">Design Sample</span></div>
-      <div class="insta-item"><div class="insta-overlay"></div><img src="/images/instagram/img31.jpg" alt="SmarTask Work"><span class="insta-label">Design Sample</span></div>
-      <div class="insta-item"><div class="insta-overlay"></div><img src="/images/instagram/img32.jpg" alt="SmarTask Work"><span class="insta-label">Design Sample</span></div>
-      <div class="insta-item"><div class="insta-overlay"></div><img src="/images/instagram/img33.jpg" alt="SmarTask Work"><span class="insta-label">Design Sample</span></div>
-      <div class="insta-item"><div class="insta-overlay"></div><img src="/images/instagram/img34.jpg" alt="SmarTask Work"><span class="insta-label">Design Sample</span></div>
-      <div class="insta-item"><div class="insta-overlay"></div><img src="/images/instagram/img35.jpg" alt="SmarTask Work"><span class="insta-label">Design Sample</span></div>
-      <div class="insta-item"><div class="insta-overlay"></div><img src="/images/instagram/img36.jpg" alt="SmarTask Work"><span class="insta-label">Design Sample</span></div>
-      <div class="insta-item"><div class="insta-overlay"></div><img src="/images/instagram/img37.jpg" alt="SmarTask Work"><span class="insta-label">Design Sample</span></div>
-      <div class="insta-item"><div class="insta-overlay"></div><img src="/images/instagram/img38.jpg" alt="SmarTask Work"><span class="insta-label">Design Sample</span></div>
-      <div class="insta-item"><div class="insta-overlay"></div><img src="/images/instagram/img39.jpg" alt="SmarTask Work"><span class="insta-label">Design Sample</span></div>
-      <div class="insta-item"><div class="insta-overlay"></div><img src="/images/instagram/img40.jpg" alt="SmarTask Work"><span class="insta-label">Design Sample</span></div>
+      <div class="insta-item" onclick="openLightbox(this)"><div class="insta-overlay"></div><img src="/images/1.jpeg" alt="Instagram Work Sample"><span class="insta-label">Design Sample</span></div>
+      <div class="insta-item" onclick="openLightbox(this)"><div class="insta-overlay"></div><img src="/images/2.jpeg" alt="Instagram Work Sample"><span class="insta-label">Design Sample</span></div>
+      <div class="insta-item" onclick="openLightbox(this)"><div class="insta-overlay"></div><img src="/images/3.jpeg" alt="Instagram Work Sample"><span class="insta-label">Design Sample</span></div>
+      <div class="insta-item" onclick="openLightbox(this)"><div class="insta-overlay"></div><img src="/images/4.jpeg" alt="Instagram Work Sample"><span class="insta-label">Design Sample</span></div>
+      <div class="insta-item" onclick="openLightbox(this)"><div class="insta-overlay"></div><img src="/images/5.jpeg" alt="Instagram Work Sample"><span class="insta-label">Design Sample</span></div>
+      <div class="insta-item" onclick="openLightbox(this)"><div class="insta-overlay"></div><img src="/images/6.jpeg" alt="Instagram Work Sample"><span class="insta-label">Design Sample</span></div>
+      <div class="insta-item" onclick="openLightbox(this)"><div class="insta-overlay"></div><img src="/images/7.jpeg" alt="Instagram Work Sample"><span class="insta-label">Design Sample</span></div>
+      <div class="insta-item" onclick="openLightbox(this)"><div class="insta-overlay"></div><img src="/images/8.jpeg" alt="Instagram Work Sample"><span class="insta-label">Design Sample</span></div>
+      <div class="insta-item" onclick="openLightbox(this)"><div class="insta-overlay"></div><img src="/images/9.jpeg" alt="Instagram Work Sample"><span class="insta-label">Design Sample</span></div>
+      <div class="insta-item" onclick="openLightbox(this)"><div class="insta-overlay"></div><img src="/images/10.jpeg" alt="Instagram Work Sample"><span class="insta-label">Design Sample</span></div>
+      <div class="insta-item" onclick="openLightbox(this)"><div class="insta-overlay"></div><img src="/images/11.jpeg" alt="Instagram Work Sample"><span class="insta-label">Design Sample</span></div>
+      <div class="insta-item" onclick="openLightbox(this)"><div class="insta-overlay"></div><img src="/images/12.jpeg" alt="Instagram Work Sample"><span class="insta-label">Design Sample</span></div>
+      <div class="insta-item" onclick="openLightbox(this)"><div class="insta-overlay"></div><img src="/images/13.jpeg" alt="Instagram Work Sample"><span class="insta-label">Design Sample</span></div>
+      <div class="insta-item" onclick="openLightbox(this)"><div class="insta-overlay"></div><img src="/images/14.jpeg" alt="Instagram Work Sample"><span class="insta-label">Design Sample</span></div>
+      <div class="insta-item" onclick="openLightbox(this)"><div class="insta-overlay"></div><img src="/images/15.jpeg" alt="Instagram Work Sample"><span class="insta-label">Design Sample</span></div>
+      <div class="insta-item" onclick="openLightbox(this)"><div class="insta-overlay"></div><img src="/images/16.jpeg" alt="Instagram Work Sample"><span class="insta-label">Design Sample</span></div>
+      <div class="insta-item" onclick="openLightbox(this)"><div class="insta-overlay"></div><img src="/images/17.jpeg" alt="Instagram Work Sample"><span class="insta-label">Design Sample</span></div>
+      <div class="insta-item" onclick="openLightbox(this)"><div class="insta-overlay"></div><img src="/images/18.jpeg" alt="Instagram Work Sample"><span class="insta-label">Design Sample</span></div>
+      <div class="insta-item" onclick="openLightbox(this)"><div class="insta-overlay"></div><img src="/images/19.jpeg" alt="Instagram Work Sample"><span class="insta-label">Design Sample</span></div>
+      <div class="insta-item" onclick="openLightbox(this)"><div class="insta-overlay"></div><img src="/images/20.jpeg" alt="Instagram Work Sample"><span class="insta-label">Design Sample</span></div>
+      <div class="insta-item" onclick="openLightbox(this)"><div class="insta-overlay"></div><img src="/images/21.jpeg" alt="Instagram Work Sample"><span class="insta-label">Design Sample</span></div>
+      <div class="insta-item" onclick="openLightbox(this)"><div class="insta-overlay"></div><img src="/images/22.jpeg" alt="Instagram Work Sample"><span class="insta-label">Design Sample</span></div>
+      <div class="insta-item" onclick="openLightbox(this)"><div class="insta-overlay"></div><img src="/images/23.jpeg" alt="Instagram Work Sample"><span class="insta-label">Design Sample</span></div>
+      <div class="insta-item" onclick="openLightbox(this)"><div class="insta-overlay"></div><img src="/images/24.jpeg" alt="Instagram Work Sample"><span class="insta-label">Design Sample</span></div>
+      <div class="insta-item" onclick="openLightbox(this)"><div class="insta-overlay"></div><img src="/images/25.jpeg" alt="Instagram Work Sample"><span class="insta-label">Design Sample</span></div>
+      <div class="insta-item" onclick="openLightbox(this)"><div class="insta-overlay"></div><img src="/images/26.jpeg" alt="Instagram Work Sample"><span class="insta-label">Design Sample</span></div>
+      <div class="insta-item" onclick="openLightbox(this)"><div class="insta-overlay"></div><img src="/images/27.jpeg" alt="Instagram Work Sample"><span class="insta-label">Design Sample</span></div>
+      <div class="insta-item" onclick="openLightbox(this)"><div class="insta-overlay"></div><img src="/images/28.jpeg" alt="Instagram Work Sample"><span class="insta-label">Design Sample</span></div>
+      <div class="insta-item" onclick="openLightbox(this)"><div class="insta-overlay"></div><img src="/images/29.jpeg" alt="Instagram Work Sample"><span class="insta-label">Design Sample</span></div>
+      <div class="insta-item" onclick="openLightbox(this)"><div class="insta-overlay"></div><img src="/images/30.jpeg" alt="Instagram Work Sample"><span class="insta-label">Design Sample</span></div>
+      <div class="insta-item" onclick="openLightbox(this)"><div class="insta-overlay"></div><img src="/images/31.jpeg" alt="Instagram Work Sample"><span class="insta-label">Design Sample</span></div>
+      <div class="insta-item" onclick="openLightbox(this)"><div class="insta-overlay"></div><img src="/images/32.jpeg" alt="Instagram Work Sample"><span class="insta-label">Design Sample</span></div>
+      <div class="insta-item" onclick="openLightbox(this)"><div class="insta-overlay"></div><img src="/images/33.jpeg" alt="Instagram Work Sample"><span class="insta-label">Design Sample</span></div>
+      <div class="insta-item" onclick="openLightbox(this)"><div class="insta-overlay"></div><img src="/images/34.jpeg" alt="Instagram Work Sample"><span class="insta-label">Design Sample</span></div>
+      <div class="insta-item" onclick="openLightbox(this)"><div class="insta-overlay"></div><img src="/images/35.jpeg" alt="Instagram Work Sample"><span class="insta-label">Design Sample</span></div>
+      <div class="insta-item" onclick="openLightbox(this)"><div class="insta-overlay"></div><img src="/images/36.jpeg" alt="Instagram Work Sample"><span class="insta-label">Design Sample</span></div>
+      <div class="insta-item" onclick="openLightbox(this)"><div class="insta-overlay"></div><img src="/images/37.jpeg" alt="Instagram Work Sample"><span class="insta-label">Design Sample</span></div>
+      <div class="insta-item" onclick="openLightbox(this)"><div class="insta-overlay"></div><img src="/images/38.jpeg" alt="Instagram Work Sample"><span class="insta-label">Design Sample</span></div>
+      <div class="insta-item" onclick="openLightbox(this)"><div class="insta-overlay"></div><img src="/images/39.jpeg" alt="Instagram Work Sample"><span class="insta-label">Design Sample</span></div>
+      <div class="insta-item" onclick="openLightbox(this)"><div class="insta-overlay"></div><img src="/images/40.jpeg" alt="Instagram Work Sample"><span class="insta-label">Design Sample</span></div>
     </div>
     
     <div class="insta-cta reveal">
@@ -983,7 +1006,6 @@
   </div>
 </section>
 
-<!-- ONLINE BOOKING CARD -->
 <section id="booking">
   <div class="section-inner">
     <div class="booking-box reveal">
@@ -999,7 +1021,6 @@
   </div>
 </section>
 
-<!-- CONTACT SECTION -->
 <section id="contact">
   <div class="section-inner">
     <div class="reveal">
@@ -1028,17 +1049,15 @@
           </div>
         </div>
         
-        <!-- INTEGRATED CLIENT QR CARD -->
-        <div class="qr-card">
+        <div class="qr-card" onclick="openLightbox(this)">
           <div class="qr-image-wrap">
-            <img src="/images/whatsapp-qr.png" alt="WhatsApp QR Code">
+            <img src="/images/whatsapp.jpeg" alt="WhatsApp QR Code">
           </div>
           <p style="font-weight:600; color:var(--white); margin-bottom:.3rem;">Scan to WhatsApp</p>
           <p>Scan this code to start an instant live chat with our team.</p>
         </div>
       </div>
 
-      <!-- CONTACT FORM -->
       <div class="contact-form">
         <div class="form-title">Send a Message</div>
         <div class="form-row">
@@ -1081,7 +1100,6 @@
   </div>
 </section>
 
-<!-- FOOTER -->
 <footer>
   <div class="footer-grid">
     <div>
@@ -1130,13 +1148,19 @@
   </div>
 </footer>
 
-<!-- WHATSAPP FLOAT -->
 <a class="wa-float" href="https://wa.me/919790460950?text=Hi%20SmarTask!%20I%20need%20your%20services." target="_blank">
   <i class="fab fa-whatsapp"></i>
 </a>
 
-<!-- SCROLL TOP -->
 <a class="scroll-top" id="scrollTop" href="#hero"><i class="fas fa-arrow-up"></i></a>
+
+<div id="lightboxModal" class="lightbox-modal" onclick="closeLightbox()">
+  <div class="lightbox-content-wrap" onclick="event.stopPropagation()">
+    <button class="lightbox-close" onclick="closeLightbox()"><i class="fas fa-times"></i></button>
+    <img id="lightboxImg" class="lightbox-img" src="" alt="Enlarged Preview">
+    <div id="lightboxCaption" class="lightbox-caption"></div>
+  </div>
+</div>
 
 <script>
   // ── NAV TOGGLE ──
@@ -1170,6 +1194,40 @@
       }
     });
   }
+
+  // ── LIGHTBOX MODAL LOGIC ──
+  function openLightbox(element) {
+    const imgElement = element.querySelector('img');
+    if (!imgElement) return;
+    
+    const modal = document.getElementById('lightboxModal');
+    const modalImg = document.getElementById('lightboxImg');
+    const modalCaption = document.getElementById('lightboxCaption');
+    
+    modalImg.src = imgElement.src;
+    
+    // Auto-extract textual heading labels if they are portfolio items
+    const titleElement = element.querySelector('h4');
+    if (titleElement) {
+      modalCaption.textContent = titleElement.textContent;
+    } else {
+      modalCaption.textContent = imgElement.alt || "SmarTask Work Sample";
+    }
+    
+    modal.classList.add('active');
+    document.body.style.overflow = 'hidden'; // Stop background content scrolling
+  }
+
+  function closeLightbox() {
+    const modal = document.getElementById('lightboxModal');
+    modal.classList.remove('active');
+    document.body.style.overflow = ''; // Restore background scroll logic
+  }
+
+  // Close Lightbox on Escape Key Press
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') closeLightbox();
+  });
 
   // ── CONTACT FORM ──
   function submitForm() {
